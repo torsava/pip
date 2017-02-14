@@ -192,6 +192,13 @@ class InstallCommand(RequirementCommand):
         cmdoptions.resolve_wheel_no_use_binary(options)
         cmdoptions.check_install_build_global(options)
 
+        # Check whether we have root privileges
+        if os.getuid() == 0:
+            logger.warning(
+                "WARNING: Running pip install with root privileges is "
+                "generally not advised. Try `pip install --user` instead."
+            )
+
         if options.as_egg:
             warnings.warn(
                 "--egg has been deprecated and will be removed in the future. "
